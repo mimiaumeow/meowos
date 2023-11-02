@@ -44,10 +44,15 @@
 # - Install Theme
 # Libresprite:
 # - Download Theme
-# - Set Keybinds
 # Vencord:
 # - Install
 # - Copy Config
+# Games:
+# - Tabletop Club
+# - PokeMMO
+# - Minecraft Java
+# - Minecraft Bedrock
+# - Game Mods, Instances and Configs
 
 { config, pkgs, ... }:
 {
@@ -84,6 +89,65 @@
     ];
 
     # - CONFIGS - #
+    #   KRITA
+    home.file.".config/kritashortcutsrc".text = ''
+      [Shortcuts]
+      KritaFill/KisToolGradient=none
+      KritaSelected/KisToolColorSampler=D
+      KritaShape/KisToolBrush=P
+      PanTool=G
+      convert-to-path=none
+      reset_fg_bg=none
+    '';
+    #   LIBRESPRITE
+    home.file.".config/libresprite/libresprite.ini".text = ''
+      [GfxMode]
+      Maximized = true
+      Width = 1920
+      Height = 1057
+      WindowLayout = 2 1280 23
+      [MiniEditor]
+      WindowPos = 400 256 240 132
+      Enabled = false
+      [general]
+      screen_scale = 2
+      visible_timeline = true
+      [layout:main_window]
+      color_bar_splitter = 94
+      palette_spectrum_splitter = 80.6005
+      timeline_splitter = 75
+      [color_bar]
+      fg_color = rgb{219,230,235,255}
+      [tool.eraser.brush]
+      size = 1
+      [tool.pencil.brush]
+      size = 1
+    '';
+    home.file.".config/libresprite/user.aseprite-keys".text = ''
+      <?xml version="1.0" encoding="utf-8" ?>
+      <keyboard version="1">
+        <commands>
+          <key command="FrameProperties" shortcut="P" removed="true">
+            <param name="frame" value="current" />
+          </key>
+        </commands>
+        <tools>
+          <key tool="pencil" shortcut="B" removed="true" />
+          <key tool="pencil" shortcut="P" />
+          <key tool="eraser" shortcut="E" />
+          <key tool="eyedropper" shortcut="I" removed="true" />
+          <key tool="hand" shortcut="H" removed="true" />
+          <key tool="hand" shortcut="G" />
+          <key tool="paint_bucket" shortcut="G" removed="true" />
+          <key tool="contour" shortcut="D" removed="true" />
+        </tools>
+        <quicktools>
+          <key tool="eyedropper" shortcut="Alt" removed="true" />
+          <key tool="eyedropper" shortcut="D" />
+        </quicktools>
+        <actions />
+      </keyboard>
+    '';
     #   FOCUSWRITER
     home.file.".config/GottCode/FocusWriter.conf".text = ''
       [Edit]
@@ -94,7 +158,6 @@
       SmartSingleQuotes=1
       SmoothFonts=true
       TypewriterSounds=false
-
       [Goal]
       History=false
       Minutes=30
@@ -102,13 +165,10 @@
       Streaks=true
       Type=0
       Words=1000
-
       [ImageButton]
       Location=/home/mia
-
       [Preferences]
       Size=@Size(650 560)
-
       [Save]
       Active=0
       Current=@Invalid()
@@ -116,11 +176,9 @@
       Positions=@Invalid()
       RememberPositions=true
       WriteBOM=true
-
       [SceneList]
       Divider=##
       Width=336
-
       [Shortcuts]
       FocusedText1=
       FocusedText2=
@@ -132,13 +190,11 @@
       FormatBlockHeading5=Ctrl+Shift+5
       FormatBlockHeading6=\x17c0\xdc53
       SaveAs=Ctrl+Shift+S
-
       [Spelling]
       HighlightMisspelled=false
       IgnoreNumbers=false
       IgnoreUppercase=false
       Language=
-
       [Stats]
       CharactersPerPage=1500
       PageSizeType=2
@@ -149,28 +205,22 @@
       ShowWords=true
       WordcountType=0
       WordsPerPage=250
-
       [SymbolsDialog]
       Shortcuts="@Variant(\0\0\0\x1c\0\0\0\x4\0\0\0\b\0\x32\0\x30\0\x31\0\x39\0\0\0\n\0\0\0\x18\0\x43\0t\0r\0l\0+\0S\0h\0i\0\x66\0t\0+\0=\0\0\0\b\0\x32\0\x30\0\x31\0\x34\0\0\0\n\0\0\0\f\0\x43\0t\0r\0l\0+\0-\0\0\0\b\0\x32\0\x30\0\x32\0\x36\0\0\0\n\0\0\0\f\0\x43\0t\0r\0l\0+\0.\0\0\0\b\0\x32\0\x30\0\x32\0\x32\0\0\0\n\0\0\0\f\0\x43\0t\0r\0l\0+\0*)"
-
       [ThemeDialog]
       Size=@Size(1049 452)
-
       [ThemeManager]
       Location=/home/mia
       Size=@Size(673 490)
       Theme=8f983137-4f85-4a4e-bf06-38d77695126e
       ThemeDefault=false
-
       [Toolbar]
       Actions=New, Open, Save, SaveAs, |, Undo, Redo, |, Cut, Copy, Paste, |, Find, Replace, |, ^Themes, ^About, ^AboutQt, FormatAlignCenter, FormatAlignJustify, FormatAlignLeft, FormatAlignRight, FormatIndentIncrease, FormatIndentDecrease, ^PreferencesLocale, FormatBold, ^Close, ^DailyProgress, ^FindNext, ^FindPrevious, ^Fullscreen, FormatItalic, ^FormatDirectionLTR, ^ManageSessions, ^Minimize, ^NewSession, ^PageSetup, ^PasteUnformatted, ^Preferences, ^Print, ^Quit, ^Reload, ^Rename, ^FormatDirectionRTL, ^SaveAll, ^SelectAll, ^SelectScene, ^SetDefaultLanguage, ^CheckSpelling, FormatUnderline, FormatStrikeOut, FormatSubScript, FormatSuperScript, ^Symbols, ^Timers
       Style=0
-
       [View]
       AlwaysShowFooter=false
       AlwaysShowHeader=false
       AlwaysShowScrollbar=false
-
       [Window]
       FocusedText=0
       Fullscreen=true
@@ -179,12 +229,10 @@
       [General]
       LoadColor=#d8aae2
       Name=catppuccin
-
       [Background]
       Color=#666666
       ImageFile=2-a16c5d75f9fa6fda5a885768f6eedbd840e74211.png
       Type=5
-
       [Foreground]
       Color=#ffffff
       Margin=50
@@ -194,33 +242,29 @@
       Rounding=10
       RoundingDisabled=0
       Width=750
-
       [ForegroundBlur]
       Enabled=false
       Radius=32
-
       [ForegroundShadow]
       Color=#000000
       Enabled=true
       Offset=5
       Radius=10
-
       [Spacings]
       IndentFirstLine=true
       LineSpacing=100
       ParagraphAbove=0
       ParagraphBelow=5
       TabWidth=50
-
       [Text]
       Color=#000000
       Font="TT2020 Style E,12,-1,5,50,0,0,0,0,0"
       Misspelled=#ff0000
     '';
+    #   KEEPASSXC
     home.file.".config/keepassxc/keepassxc.ini".text = ''
       [General]
       ConfigVersion=2
-
       [GUI]
       ApplicationTheme=dark
     '';
@@ -652,8 +696,10 @@
   system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
-  system.nixos.label = "MeowOS-1.2.1-MaineCoon";
+  system.nixos.label = "MeowOS-1.2.2-MaineCoon";
     # CHANGELOG:
+    #   - MeowOS v.1.2.2
+    #     - Add Libresprite Config
     #   - MeowOS v.1.2.1
     #     - Prepare for Libresprite Config
     #   - MeowOS v.1.2.0
