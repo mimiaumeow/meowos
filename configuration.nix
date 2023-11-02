@@ -32,8 +32,6 @@
 # nixos-install
 # reboot
 # -- POST -- #
-# KeePassDX:
-# - Enable Dark Mode
 # Librewolf:
 # - Settings
 # - Bookmarks
@@ -42,14 +40,8 @@
 # - Extensions
 # - Configure Extensions
 # - NextDNS
-# Krita:
-# - Set Keybinds
-# Scribus:
-# - Download Theme
 # Focuswriter:
 # - Install Theme
-# - Edit Theme (Change Wallpaper)
-# - Change Settings
 # Libresprite:
 # - Download Theme
 # - Set Keybinds
@@ -93,6 +85,96 @@
 
     # - CONFIGS - #
     #   FOCUSWRITER
+    home.file.".config/GottCode/FocusWriter.conf".text = ''
+      [Edit]
+      AlwaysCenter=false
+      BlockCursor=false
+      SmartDoubleQuotes=0
+      SmartQuotes=true
+      SmartSingleQuotes=1
+      SmoothFonts=true
+      TypewriterSounds=false
+
+      [Goal]
+      History=false
+      Minutes=30
+      StreakMinimum=100
+      Streaks=true
+      Type=0
+      Words=1000
+
+      [ImageButton]
+      Location=/home/mia
+
+      [Preferences]
+      Size=@Size(650 560)
+
+      [Save]
+      Active=0
+      Current=@Invalid()
+      DefaultFormat=odt
+      Positions=@Invalid()
+      RememberPositions=true
+      WriteBOM=true
+
+      [SceneList]
+      Divider=##
+      Width=336
+
+      [Shortcuts]
+      FocusedText1=
+      FocusedText2=
+      FocusedText3=
+      FormatBlockHeading1=Ctrl+Shift+1
+      FormatBlockHeading2=Ctrl+Shift+2
+      FormatBlockHeading3=Ctrl+Shift+3
+      FormatBlockHeading4=Ctrl+Shift+4
+      FormatBlockHeading5=Ctrl+Shift+5
+      FormatBlockHeading6=\x17c0\xdc53
+      SaveAs=Ctrl+Shift+S
+
+      [Spelling]
+      HighlightMisspelled=false
+      IgnoreNumbers=false
+      IgnoreUppercase=false
+      Language=
+
+      [Stats]
+      CharactersPerPage=1500
+      PageSizeType=2
+      ParagraphsPerPage=5
+      ShowCharacters=true
+      ShowPages=true
+      ShowParagraphs=true
+      ShowWords=true
+      WordcountType=0
+      WordsPerPage=250
+
+      [SymbolsDialog]
+      Shortcuts="@Variant(\0\0\0\x1c\0\0\0\x4\0\0\0\b\0\x32\0\x30\0\x31\0\x39\0\0\0\n\0\0\0\x18\0\x43\0t\0r\0l\0+\0S\0h\0i\0\x66\0t\0+\0=\0\0\0\b\0\x32\0\x30\0\x31\0\x34\0\0\0\n\0\0\0\f\0\x43\0t\0r\0l\0+\0-\0\0\0\b\0\x32\0\x30\0\x32\0\x36\0\0\0\n\0\0\0\f\0\x43\0t\0r\0l\0+\0.\0\0\0\b\0\x32\0\x30\0\x32\0\x32\0\0\0\n\0\0\0\f\0\x43\0t\0r\0l\0+\0*)"
+
+      [ThemeDialog]
+      Size=@Size(1049 452)
+
+      [ThemeManager]
+      Location=/home/mia
+      Size=@Size(673 490)
+      Theme=8f983137-4f85-4a4e-bf06-38d77695126e
+      ThemeDefault=false
+
+      [Toolbar]
+      Actions=New, Open, Save, SaveAs, |, Undo, Redo, |, Cut, Copy, Paste, |, Find, Replace, |, ^Themes, ^About, ^AboutQt, FormatAlignCenter, FormatAlignJustify, FormatAlignLeft, FormatAlignRight, FormatIndentIncrease, FormatIndentDecrease, ^PreferencesLocale, FormatBold, ^Close, ^DailyProgress, ^FindNext, ^FindPrevious, ^Fullscreen, FormatItalic, ^FormatDirectionLTR, ^ManageSessions, ^Minimize, ^NewSession, ^PageSetup, ^PasteUnformatted, ^Preferences, ^Print, ^Quit, ^Reload, ^Rename, ^FormatDirectionRTL, ^SaveAll, ^SelectAll, ^SelectScene, ^SetDefaultLanguage, ^CheckSpelling, FormatUnderline, FormatStrikeOut, FormatSubScript, FormatSuperScript, ^Symbols, ^Timers
+      Style=0
+
+      [View]
+      AlwaysShowFooter=false
+      AlwaysShowHeader=false
+      AlwaysShowScrollbar=false
+
+      [Window]
+      FocusedText=0
+      Fullscreen=true
+    '';
     home.file.".config/manual/focuswriter/catppuccin".text = ''
       [General]
       LoadColor=#d8aae2
@@ -135,6 +217,13 @@
       Font="TT2020 Style E,12,-1,5,50,0,0,0,0,0"
       Misspelled=#ff0000
     '';
+    home.file.".config/keepassxc/keepassxc.ini".text = ''
+      [General]
+      ConfigVersion=2
+
+      [GUI]
+      ApplicationTheme=dark
+    '';
     #   ZSH
     programs.zsh = {
       enable = true;
@@ -147,6 +236,7 @@
         gp = "git push";
         gf = "git fetch";
         matrix = "cmatrix -absC white";
+        clock = "date +'%A%n%d.%m.%Y%n%u %H:%M'";
         x = "chmod +x";
         mnt = "sudo mount";
         umnt = "sudo umount";
@@ -166,7 +256,7 @@
         theme = "avit";
       };
       enableAutosuggestions = true;
-      initExtra = "clear";# && date + "%A%n%d.%m.%Y%n%u %H:%M";
+      initExtra = "clear && date +'%A%n%d.%m.%Y%n%u %H:%M'";
     };
     #   ALACRITTY
     home.file.".config/alacritty/alacritty.yml".text = ''
@@ -190,36 +280,36 @@
         size: 11.0
       colors:
         primary:
-          background: "#1E1E2E" # base
-          foreground: "#CDD6F4" # text
-          dim_foreground: "#CDD6F4" # text
-          bright_foreground: "#CDD6F4" # text
+          background: "#1E1E2E"
+          foreground: "#CDD6F4"
+          dim_foreground: "#CDD6F4"
+          bright_foreground: "#CDD6F4"
         cursor:
-          text: "#1E1E2E" # base
-          cursor: "#F5E0DC" # rosewater
+          text: "#1E1E2E"
+          cursor: "#F5E0DC"
         vi_mode_cursor:
-          text: "#1E1E2E" # base
-          cursor: "#B4BEFE" # lavender
+          text: "#1E1E2E"
+          cursor: "#B4BEFE"
         search:
           matches:
-            foreground: "#1E1E2E" # base
-            background: "#A6ADC8" # subtext0
+            foreground: "#1E1E2E"
+            background: "#A6ADC8"
           focused_match:
-            foreground: "#1E1E2E" # base
-            background: "#A6E3A1" # green
+            foreground: "#1E1E2E"
+            background: "#A6E3A1"
           footer_bar:
-            foreground: "#1E1E2E" # base
-            background: "#A6ADC8" # subtext0
+            foreground: "#1E1E2E"
+            background: "#A6ADC8"
           hints:
             start:
-              foreground: "#1E1E2E" # base
-              background: "#F9E2AF" # yellow
+              foreground: "#1E1E2E"
+              background: "#F9E2AF"
             end:
-              foreground: "#1E1E2E" # base
-              background: "#A6ADC8" # subtext0
+              foreground: "#1E1E2E"
+              background: "#A6ADC8"
           selection:
-            text: "#1E1E2E" # base
-            background: "#F5E0DC" # rosewater
+            text: "#1E1E2E"
+            background: "#F5E0DC"
           normal:
             black: "#45475A"
             red: "#F38BA8"
@@ -562,8 +652,18 @@
   system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
-  system.nixos.label = "MeowOS-1.0.0-MaineCoon";
+  system.nixos.label = "MeowOS-1.2.1-MaineCoon";
     # CHANGELOG:
+    #   - MeowOS v.1.2.1
+    #     - Prepare for Libresprite Config
+    #   - MeowOS v.1.2.0
+    #     - FocusWriter Config
+    #   - MeowOS v.1.1.1
+    #     - Fixed Clock Command
+    #   - MeowOS v.1.1.0
+    #     - Clock Command
+    #     - KeePassXC Theme
+    #     - Fixed Typos
     #   - MeowOS v.1.0.0 | MaineCoon
     #     » Initial Release
 }
