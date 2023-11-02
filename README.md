@@ -1,5 +1,5 @@
 # MeowOS
-### v.1.2.1 | MaineCoon
+### v.1.2.2 | MaineCoon
 
 ***If you are reading this, you probably shouldnt be here.***
 You *can* use this, but why would you?
