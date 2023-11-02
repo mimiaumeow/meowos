@@ -1,0 +1,2 @@
+# meowos
+MeowOS | NixOS Configuration
