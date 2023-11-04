@@ -2,6 +2,7 @@
 # by mia | mimiaumeow.github.io
 
 # TO-DO:
+# - Install nixGL
 # - Fix Aseprite Theme
 # - Find Alternatives to GUI Apps
 # - Login Manager Theme
@@ -487,7 +488,7 @@
       bind = $mod, P, exec, keepassxc
       bind = $mod, F, exec, nautilus
       bind = $mod, C, exec, vencord
-      bind = $mod, G, exec, steam
+      bind = $mod, G, exec, nixGL steam
       bind = $mod, K, exec, krita
       bind = $mod, L, exec, libresprite
       bind = $mod, I, exec, inkscape
@@ -1325,8 +1326,10 @@
   system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
-  system.nixos.label = "MeowOS-1.5.5-MaineCoon";
+  system.nixos.label = "MeowOS-1.5.6-MaineCoon";
     # CHANGELOG:
+    #   - MeowOS v.1.5.6
+    #     - Attempt at fixing Steam
     #   - MeowOS v.1.5.5
     #     - Add Volume Keys
     #   - MeowOS v.1.5.4
