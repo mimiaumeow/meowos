@@ -2,13 +2,15 @@
 # by mia | mimiaumeow.github.io
 
 # TO-DO:
-# - BTRFS
+# - Fix Aseprite Theme
+# - Find Alternatives to GUI Apps
+# - Login Manager Theme
+# - Plymouth Theme
+# - FocusWriter Theme (no Wallpaper, not enabled by Default)
+# - Configure systemd-boot
 # - Full Disk Encryption
+# - BTRFS
 # - Amnesia
-# - systemd-boot Configuration
-# - Fix Plymouth Theme
-# - Change Login Manager Theme
-# - Automize Post Installation
 
 # -- REGULAR INSTALL -- # (nixos-minimal.iso)
 # sudo -i
@@ -31,28 +33,6 @@
 # »»» /mnt/etc/nixos/configuration.nix (or run: nixos-generate-config --root /mnt)
 # nixos-install
 # reboot
-# -- POST -- #
-# Librewolf:
-# - Settings
-# - Bookmarks
-# - Toolbar
-# - Theme
-# - Extensions
-# - Configure Extensions
-# - NextDNS
-# Focuswriter:
-# - Install Theme
-# Libresprite:
-# - Download Theme
-# Vencord:
-# - Install
-# - Copy Config
-# Games:
-# - Tabletop Club
-# - PokeMMO
-# - Minecraft Java
-# - Minecraft Bedrock
-# - Game Mods, Instances and Configs
 
 { config, pkgs, ... }:
 {
@@ -72,12 +52,14 @@
       pkgs.keepassxc
       pkgs.alacritty
       pkgs.gnome.nautilus
-      pkgs.discord
+      (pkgs.discord.override {
+        withVencord=true;
+      })
       pkgs.steam
       pkgs.lutris
       pkgs.heroic
       pkgs.krita
-      pkgs.libresprite
+      pkgs.aseprite
       pkgs.inkscape
       pkgs.scribus
       pkgs.blender
@@ -99,12 +81,32 @@
       convert-to-path=none
       reset_fg_bg=none
     '';
-    #   LIBRESPRITE
-    home.file.".config/libresprite/libresprite.ini".text = ''
+    #   ASEPRITE
+    home.file.".config/aseprite/data/skins/catppuccin-theme-mocha/package.json" = {
+      source = builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/sharkked/catppuccin-aseprite/main/themes/mocha/catppuccin-theme-mocha/package.json";
+      };
+    };
+    home.file.".config/aseprite/data/skins/catppuccin-theme-mocha/sheet.aseprite-data" = {
+      source = builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/sharkked/catppuccin-aseprite/main/themes/mocha/catppuccin-theme-mocha/sheet.aseprite-data";
+      };
+    };
+    home.file.".config/aseprite/data/skins/catppuccin-theme-mocha/sheet.png" = {
+      source = builtins.fetchurl {
+        url = "https://github.com/sharkked/catppuccin-aseprite/blob/c10e30ea04c3e0c41604847c363bf6a69918ca54/themes/mocha/catppuccin-theme-mocha/sheet.png?raw=true";
+      };
+    };
+    home.file.".config/aseprite/data/skins/catppuccin-theme-mocha/theme.xml" = {
+      source = builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/sharkked/catppuccin-aseprite/main/themes/mocha/catppuccin-theme-mocha/theme.xml";
+      };
+    };
+    home.file.".config/aseprite/aseprite.ini".text = ''
       [GfxMode]
       Maximized = true
       Width = 1920
-      Height = 1057
+      Height = 1080
       WindowLayout = 2 1280 23
       [MiniEditor]
       WindowPos = 400 256 240 132
@@ -123,7 +125,9 @@
       [tool.pencil.brush]
       size = 1
     '';
-    home.file.".config/libresprite/user.aseprite-keys".text = ''
+      #[theme]
+      #selected = catppuccin-theme-mocha
+    home.file.".config/aseprite/user.aseprite-keys".text = ''
       <?xml version="1.0" encoding="utf-8" ?>
       <keyboard version="1">
         <commands>
@@ -149,7 +153,7 @@
       </keyboard>
     '';
     #   FOCUSWRITER
-    home.file.".config/GottCode/FocusWriter.conf".text = ''
+    home.file.".config/GottCode/FocusWriter-old.conf".text = ''
       [Edit]
       AlwaysCenter=false
       BlockCursor=false
@@ -212,8 +216,8 @@
       [ThemeManager]
       Location=/home/mia
       Size=@Size(673 490)
-      Theme=8f983137-4f85-4a4e-bf06-38d77695126e
-      ThemeDefault=false
+      Theme=catppuccin
+      ThemeDefault=true
       [Toolbar]
       Actions=New, Open, Save, SaveAs, |, Undo, Redo, |, Cut, Copy, Paste, |, Find, Replace, |, ^Themes, ^About, ^AboutQt, FormatAlignCenter, FormatAlignJustify, FormatAlignLeft, FormatAlignRight, FormatIndentIncrease, FormatIndentDecrease, ^PreferencesLocale, FormatBold, ^Close, ^DailyProgress, ^FindNext, ^FindPrevious, ^Fullscreen, FormatItalic, ^FormatDirectionLTR, ^ManageSessions, ^Minimize, ^NewSession, ^PageSetup, ^PasteUnformatted, ^Preferences, ^Print, ^Quit, ^Reload, ^Rename, ^FormatDirectionRTL, ^SaveAll, ^SelectAll, ^SelectScene, ^SetDefaultLanguage, ^CheckSpelling, FormatUnderline, FormatStrikeOut, FormatSubScript, FormatSuperScript, ^Symbols, ^Timers
       Style=0
@@ -225,13 +229,13 @@
       FocusedText=0
       Fullscreen=true
     '';
-    home.file.".config/manual/focuswriter/catppuccin".text = ''
+    home.file.".local/share/GottCode/FocusWriter/Themes/catppuccin.theme".text = ''
       [General]
       LoadColor=#d8aae2
-      Name=catppuccin
+      Name=Catppuccin (MeowOS)
       [Background]
       Color=#666666
-      ImageFile=2-a16c5d75f9fa6fda5a885768f6eedbd840e74211.png
+      ImageFile=~/.wallpaper.png
       Type=5
       [Foreground]
       Color=#ffffff
@@ -578,9 +582,619 @@
       windowrule = opacity 50, alacritty
       exec-once=hyprctl setcursor Catppuccin-Mocha-Dark-Cursors 24
     '';
-
-    # - OTHER FILES - #
-    #
+    #   DISCORD
+    home.file.".config/discord/settings/settings.json".text = ''
+      {
+        "SKIP_HOST_UPDATE": true,
+        "DANGEROUS_ENABLE_DEVTOOLS_ONLY_ENABLE_IF_YOU_KNOW_WHAT_YOURE_DOING": true,
+        "MIN_WIDTH": 940,
+        "MIN_HEIGHT": 500,
+        "IS_MAXIMIZED": false,
+        "IS_MINIMIZED": false,
+        "WINDOW_BOUNDS": {
+          "x": 12,
+          "y": 12,
+          "width": 1256,
+          "height": 696                 
+        },
+        "MINIMIZE_TO_TRAY": false,
+        "OPEN_ON_STARTUP": false              
+      }
+    '';
+    #   VENCORD
+    home.file.".config/Vencord/settings/settings.json".text = ''
+    {
+    "notifyAboutUpdates": true,
+    "autoUpdate": false,
+    "autoUpdateNotification": true,
+    "useQuickCss": true,
+    "themeLinks": [
+        "https://github.com/catppuccin/discord/blob/main/themes/mocha.theme.css?raw=1"
+    ],
+    "enabledThemes": [],
+    "enableReactDevtools": false,
+    "frameless": false,
+    "transparent": false,
+    "winCtrlQ": false,
+    "macosTranslucency": false,
+    "disableMinSize": false,
+    "winNativeTitleBar": false,
+    "plugins": {
+        "BadgeAPI": {
+            "enabled": true
+        },
+        "CommandsAPI": {
+            "enabled": true
+        },
+        "ContextMenuAPI": {
+            "enabled": true
+        },
+        "MemberListDecoratorsAPI": {
+            "enabled": false
+        },
+        "MessageAccessoriesAPI": {
+            "enabled": true
+        },
+        "MessageDecorationsAPI": {
+            "enabled": false
+        },
+        "MessageEventsAPI": {
+            "enabled": true
+        },
+        "MessagePopoverAPI": {
+            "enabled": true
+        },
+        "NoticesAPI": {
+            "enabled": true
+        },
+        "ServerListAPI": {
+            "enabled": true
+        },
+        "SettingsStoreAPI": {
+            "enabled": true
+        },
+        "NoTrack": {
+            "enabled": true
+        },
+        "Settings": {
+            "enabled": true,
+            "settingsLocation": "aboveActivity"
+        },
+        "AlwaysAnimate": {
+            "enabled": true
+        },
+        "AlwaysTrust": {
+            "enabled": true
+        },
+        "AnonymiseFileNames": {
+            "enabled": false,
+            "method": 0,
+            "randomisedLength": 7,
+            "consistent": "image"
+        },
+        "BANger": {
+            "enabled": false,
+            "source": "https://i.imgur.com/wp5q52C.mp4"
+        },
+        "BetterFolders": {
+            "enabled": true,
+            "sidebar": true,
+            "sidebarAnim": true,
+            "closeAllFolders": false,
+            "closeAllHomeButton": true,
+            "closeOthers": false,
+            "forceOpen": false
+        },
+        "BetterGifAltText": {
+            "enabled": true
+        },
+        "BetterNotesBox": {
+            "enabled": true,
+            "hide": true,
+            "noSpellCheck": true
+        },
+        "BetterRoleDot": {
+            "enabled": true,
+            "bothStyles": false
+        },
+        "BetterUploadButton": {
+            "enabled": true
+        },
+        "BiggerStreamPreview": {
+            "enabled": true
+        },
+        "BlurNSFW": {
+            "enabled": true,
+            "blurAmount": 10
+        },
+        "CallTimer": {
+            "enabled": true,
+            "format": "human"
+        },
+        "ClearURLs": {
+            "enabled": true
+        },
+        "ColorSighted": {
+            "enabled": false
+        },
+        "ConsoleShortcuts": {
+            "enabled": false
+        },
+        "CopyUserURLs": {
+            "enabled": false
+        },
+        "CrashHandler": {
+            "enabled": true
+        },
+        "CustomRPC": {
+            "enabled": false,
+            "type": 0,
+            "timestampMode": 0
+        },
+        "Dearrow": {
+            "enabled": true
+        },
+        "DisableDMCallIdle": {
+            "enabled": true
+        },
+        "EmoteCloner": {
+            "enabled": true
+        },
+        "Experiments": {
+            "enabled": true,
+            "enableIsStaff": false,
+            "forceStagingBanner": false
+        },
+        "F8Break": {
+            "enabled": false
+        },
+        "FakeNitro": {
+            "enabled": true,
+            "enableEmojiBypass": true,
+            "emojiSize": 48,
+            "transformEmojis": false,
+            "enableStickerBypass": true,
+            "stickerSize": 160,
+            "transformStickers": false,
+            "transformCompoundSentence": false,
+            "enableStreamQualityBypass": false
+        },
+        "FakeProfileThemes": {
+            "enabled": false,
+            "nitroFirst": true
+        },
+        "FavoriteEmojiFirst": {
+            "enabled": false
+        },
+        "FavoriteGifSearch": {
+            "enabled": false,
+            "searchOption": "hostandpath"
+        },
+        "FixInbox": {
+            "enabled": false
+        },
+        "FixSpotifyEmbeds": {
+            "enabled": true,
+            "volume": 10
+        },
+        "ForceOwnerCrown": {
+            "enabled": true
+        },
+        "FriendInvites": {
+            "enabled": false
+        },
+        "GameActivityToggle": {
+            "enabled": false
+        },
+        "GifPaste": {
+            "enabled": true
+        },
+        "GreetStickerPicker": {
+            "enabled": true,
+            "greetMode": "Greet"
+        },
+        "HideAttachments": {
+            "enabled": false
+        },
+        "iLoveSpam": {
+            "enabled": false
+        },
+        "IgnoreActivities": {
+            "enabled": true
+        },
+        "ImageZoom": {
+            "enabled": true,
+            "saveZoomValues": true,
+            "preventCarouselFromClosingOnClick": true,
+            "invertScroll": true,
+            "nearestNeighbour": false,
+            "square": false,
+            "zoom": 2,
+            "size": 100,
+            "zoomSpeed": 0.5
+        },
+        "InvisibleChat": {
+            "enabled": false,
+            "savedPasswords": "password, Password"
+        },
+        "KeepCurrentChannel": {
+            "enabled": false
+        },
+        "LastFMRichPresence": {
+            "enabled": false
+        },
+        "LoadingQuotes": {
+            "enabled": true
+        },
+        "MemberCount": {
+            "enabled": false
+        },
+        "MessageClickActions": {
+            "enabled": false
+        },
+        "MessageLinkEmbeds": {
+            "enabled": true,
+            "automodEmbeds": "never",
+            "listMode": "blacklist",
+            "idList": ""
+        },
+        "MessageLogger": {
+            "enabled": true,
+            "deleteStyle": "overlay",
+            "ignoreBots": false,
+            "ignoreSelf": false,
+            "ignoreUsers": "",
+            "ignoreChannels": "",
+            "ignoreGuilds": ""
+        },
+        "MessageTags": {
+            "enabled": false
+        },
+        "MoreCommands": {
+            "enabled": false
+        },
+        "MoreKaomoji": {
+            "enabled": true
+        },
+        "MoreUserTags": {
+            "enabled": true,
+            "tagSettings": {
+                "WEBHOOK": {
+                    "text": "Webhook",
+                    "showInChat": true,
+                    "showInNotChat": true
+                },
+                "OWNER": {
+                    "text": "Owner",
+                    "showInChat": true,
+                    "showInNotChat": true
+                },
+                "ADMINISTRATOR": {
+                    "text": "Admin",
+                    "showInChat": true,
+                    "showInNotChat": true
+                },
+                "MODERATOR_STAFF": {
+                    "text": "Staff",
+                    "showInChat": true,
+                    "showInNotChat": true
+                },
+                "MODERATOR": {
+                    "text": "Mod",
+                    "showInChat": true,
+                    "showInNotChat": true
+                },
+                "VOICE_MODERATOR": {
+                    "text": "VC Mod",
+                    "showInChat": true,
+                    "showInNotChat": true
+                }
+            }
+        },
+        "Moyai": {
+            "enabled": true,
+            "volume": 0.1777573429327229,
+            "quality": "Normal",
+            "triggerWhenUnfocused": true,
+            "ignoreBots": true,
+            "ignoreBlocked": true
+        },
+        "MuteNewGuild": {
+            "enabled": true,
+            "guild": true,
+            "everyone": true,
+            "role": true
+        },
+        "MutualGroupDMs": {
+            "enabled": true
+        },
+        "NoBlockedMessages": {
+            "enabled": false
+        },
+        "NoDevtoolsWarning": {
+            "enabled": false
+        },
+        "NoF1": {
+            "enabled": false
+        },
+        "NoPendingCount": {
+            "enabled": true,
+            "hideFriendRequestsCount": false,
+            "hideMessageRequestsCount": false,
+            "hidePremiumOffersCount": true
+        },
+        "NoProfileThemes": {
+            "enabled": false
+        },
+        "NoRPC": {
+            "enabled": true
+        },
+        "NoReplyMention": {
+            "enabled": true,
+            "userList": "1234567890123445,1234567890123445",
+            "shouldPingListed": true,
+            "inverseShiftReply": false
+        },
+        "NoScreensharePreview": {
+            "enabled": false
+        },
+        "NoSystemBadge": {
+            "enabled": false
+        },
+        "NoUnblockToJump": {
+            "enabled": true
+        },
+        "NormalizeMessageLinks": {
+            "enabled": true
+        },
+        "NSFWGateBypass": {
+            "enabled": true
+        },
+        "oneko": {
+            "enabled": false
+        },
+        "OpenInApp": {
+            "enabled": false
+        },
+        "Party mode 🎉": {
+            "enabled": false,
+            "superIntensePartyMode": 0
+        },
+        "PermissionsViewer": {
+            "enabled": true,
+            "permissionsSortOrder": 0,
+            "defaultPermissionsDropdownState": false
+        },
+        "petpet": {
+            "enabled": true
+        },
+        "PictureInPicture": {
+            "enabled": true
+        },
+        "PinDMs": {
+            "enabled": true,
+            "pinOrder": 1
+        },
+        "PlainFolderIcon": {
+            "enabled": false
+        },
+        "PlatformIndicators": {
+            "enabled": false
+        },
+        "PreviewMessage": {
+            "enabled": true
+        },
+        "PronounDB": {
+            "enabled": false,
+            "pronounsFormat": "LOWERCASE",
+            "pronounSource": 0,
+            "showSelf": true,
+            "showInMessages": true,
+            "showInProfile": true
+        },
+        "QuickMention": {
+            "enabled": false
+        },
+        "QuickReply": {
+            "enabled": false
+        },
+        "ReactErrorDecoder": {
+            "enabled": false
+        },
+        "ReadAllNotificationsButton": {
+            "enabled": false
+        },
+        "RelationshipNotifier": {
+            "enabled": true,
+            "offlineRemovals": true,
+            "groups": true,
+            "servers": true,
+            "friends": true,
+            "friendRequestCancels": true
+        },
+        "RevealAllSpoilers": {
+            "enabled": true
+        },
+        "ReverseImageSearch": {
+            "enabled": true
+        },
+        "ReviewDB": {
+            "enabled": false
+        },
+        "RoleColorEverywhere": {
+            "enabled": true,
+            "chatMentions": true,
+            "memberList": true,
+            "voiceUsers": true
+        },
+        "SearchReply": {
+            "enabled": false
+        },
+        "SecretRingToneEnabler": {
+            "enabled": true
+        },
+        "SendTimestamps": {
+            "enabled": true
+        },
+        "ServerListIndicators": {
+            "enabled": false
+        },
+        "ServerProfile": {
+            "enabled": true
+        },
+        "ShikiCodeblocks": {
+            "enabled": true,
+            "theme": "https://github.com/catppuccin/vscode/releases/download/v3.6.0/catppuccin-vsc-3.6.0.vsix",
+            "tryHljs": "SECONDARY",
+            "useDevIcon": "GREYSCALE",
+            "bgOpacity": 100
+        },
+        "ShowAllMessageButtons": {
+            "enabled": false
+        },
+        "ShowConnections": {
+            "enabled": false
+        },
+        "ShowHiddenChannels": {
+            "enabled": true,
+            "hideUnreads": true,
+            "showMode": 1,
+            "defaultAllowedUsersAndRolesDropdownState": true
+        },
+        "ShowMeYourName": {
+            "enabled": true,
+            "mode": "nick-user",
+            "displayNames": false,
+            "inReplies": false
+        },
+        "ShowTimeouts": {
+            "enabled": true
+        },
+        "SilentMessageToggle": {
+            "enabled": false,
+            "persistState": false,
+            "autoDisable": true
+        },
+        "SilentTyping": {
+            "enabled": true,
+            "showIcon": true,
+            "isEnabled": false
+        },
+        "SortFriendRequests": {
+            "enabled": true,
+            "showDates": true
+        },
+        "SpotifyControls": {
+            "enabled": false
+        },
+        "SpotifyCrack": {
+            "enabled": false
+        },
+        "SpotifyShareCommands": {
+            "enabled": false
+        },
+        "StartupTimings": {
+            "enabled": false
+        },
+        "SupportHelper": {
+            "enabled": true
+        },
+        "TextReplace": {
+            "enabled": false
+        },
+        "ThemeAttributes": {
+            "enabled": false
+        },
+        "TimeBarAllActivities": {
+            "enabled": false
+        },
+        "Translate": {
+            "enabled": true,
+            "autoTranslate": false,
+            "receivedInput": "auto",
+            "receivedOutput": "en",
+            "sentInput": "auto",
+            "sentOutput": "en"
+        },
+        "TypingIndicator": {
+            "enabled": true,
+            "includeMutedChannels": false,
+            "includeBlockedUsers": true
+        },
+        "TypingTweaks": {
+            "enabled": true,
+            "alternativeFormatting": true
+        },
+        "Unindent": {
+            "enabled": false
+        },
+        "UnsuppressEmbeds": {
+            "enabled": false
+        },
+        "UrbanDictionary": {
+            "enabled": false
+        },
+        "UserVoiceShow": {
+            "enabled": true
+        },
+        "USRBG": {
+            "enabled": false
+        },
+        "ValidUser": {
+            "enabled": true
+        },
+        "VoiceChatDoubleClick": {
+            "enabled": true
+        },
+        "VcNarrator": {
+            "enabled": false
+        },
+        "VencordToolbox": {
+            "enabled": false
+        },
+        "ViewIcons": {
+            "enabled": true,
+            "format": "png",
+            "imgSize": "1024"
+        },
+        "ViewRaw": {
+            "enabled": true
+        },
+        "VoiceMessages": {
+            "enabled": false,
+            "noiseSuppression": true,
+            "echoCancellation": true
+        },
+        "VolumeBooster": {
+            "enabled": true
+        },
+        "WhoReacted": {
+            "enabled": true
+        },
+        "Wikisearch": {
+            "enabled": false
+        }
+    },
+    "notifications": {
+        "timeout": 5000,
+        "position": "bottom-right",
+        "useNative": "not-focused",
+        "logLimit": 50
+    },
+    "cloud": {
+        "authenticated": false,
+        "url": "https://api.vencord.dev/",
+        "settingsSync": false,
+        "settingsSyncVersion": 1694662800288
+    }
+    }
+    '';
+    #   WALLPAPER
+    home.file.".wallpaper.png" = {
+      source = builtins.fetchurl {
+        url = "https://github.com/zhichaoh/catppuccin-wallpapers/blob/main/os/nix-magenta-pink-1920x1080.png?raw=true";
+      };
+    };
 
     home.stateVersion = "23.05";
   };
@@ -696,8 +1310,39 @@
   system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
-  system.nixos.label = "MeowOS-1.2.2-MaineCoon";
+  system.nixos.label = "MeowOS-1.5.0-MaineCoon";
     # CHANGELOG:
+    #   - MeowOS v.1.5.0
+    #     » MeowOS is now ready to be used.
+    #     - Clean Vencord Config
+    #   - MeowOS v.1.4.5
+    #     - Solve FocusWriter Theme
+    #   - MeowOS v.1.4.4
+    #     - Change Location of FocusWriter Theme
+    #   - MeowOS v.1.4.3
+    #     - Fix FocusWriter Theme (temporary Solution)
+    #   - MeowOS v.1.4.2
+    #     - Test FocusWriter Theme
+    #   - MeowOS v.1.4.1
+    #     - Discord Config
+    #     - Vencord Theming
+    #   - MeowOS v.1.4.0
+    #     - Vencord Config
+    #   - MeowOS v.1.3.6
+    #     - Install Vencord
+    #     - Disable Aseprite Theme
+    #   - MeowOS v.1.3.5
+    #     - Download Aseprite Theme directly
+    #   - MeowOS v.1.3.4
+    #     - Update Aseprite Theme
+    #   - MeowOS v.1.3.3
+    #     - Switch to Aseprite and fix Theme
+    #   - MeowOS v.1.3.2
+    #     - Apply Libreprite Theme
+    #   - MeowOS v.1.3.1
+    #     - Download Libreprite Theme
+    #   - MeowOS v.1.3.0
+    #     - Download Wallpaper automatically 
     #   - MeowOS v.1.2.2
     #     - Add Libresprite Config
     #   - MeowOS v.1.2.1
