@@ -70,6 +70,14 @@
       pkgs.godot
     ];
 
+    # - HOME FOLDER - #
+    home.file."media/.media".text = ''
+      media
+    '';
+    home.file."projects/.projects".text = ''
+      projects
+    '';
+
     # - CONFIGS - #
     #   KRITA
     home.file.".config/kritashortcutsrc".text = ''
@@ -463,6 +471,10 @@
     };
     home.sessionVariables.GTK_THEME = "Catppuccin-Mocha-Compact-Mauve-Dark";
     home.file.".config/hypr/hyprland.conf".text = ''
+    #     MONITOR & XWAYLAND FIX
+      monitor=,highres,auto,1
+      env = GDK_SCALE,1
+      env = XCURSOR_SIZE,32
     #     WALLPAPER & THEME
       exec-once = swaybg -i ~/.wallpaper.png
       exec-once = GTK_THEME="Catppuccin-Mocha-Compact-Mauve-Dark"
@@ -486,6 +498,8 @@
       bind = $mod, N, exec, focuswriter
       bind = $mod, V, exec, virt-manager
       bind = $mod, U, exec, godot
+      bind = , xf86audioraisevolume, exec, wpctl set-sink-volume @DEFAULT_SINK@ +5% 
+      bind = , xf86audiolowervolume, exec, wpctl set-sink-volume @DEFAULT_SINK@ -5% 
       bind = $mod, SPACE, togglefloating
       bind = SUPERSHIFT, F, fullscreen
       bind = ,PRINT, exec, grim -g "$(slurp)"
@@ -538,6 +552,7 @@
     #     WM
       input {
         kb_layout = de
+        kb_options = compose:rctrl
         follow_mouse = 1
         sensitivity = 0
         force_no_accel = 1
@@ -1310,8 +1325,19 @@
   system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
-  system.nixos.label = "MeowOS-1.5.0-MaineCoon";
+  system.nixos.label = "MeowOS-1.5.5-MaineCoon";
     # CHANGELOG:
+    #   - MeowOS v.1.5.5
+    #     - Add Volume Keys
+    #   - MeowOS v.1.5.4
+    #     - Compose is now Right-Ctrl
+    #   - MeowOS v.1.5.3
+    #     - Add Compose Key (Currently Right-Alt)
+    #   - MeowOS v.1.5.2
+    #     - Change Scaling Factor
+    #   - MeowOS v.1.5.1
+    #     - Fix XWayland Scaling
+    #     - Set up Home Folder
     #   - MeowOS v.1.5.0
     #     » MeowOS is now ready to be used.
     #     - Clean Vencord Config
