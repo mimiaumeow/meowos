@@ -49,6 +49,7 @@
     home.packages = [
       pkgs.cmatrix
       pkgs.flatpak
+      pkgs.appimage-run
       pkgs.librewolf
       pkgs.keepassxc
       pkgs.alacritty
@@ -59,6 +60,7 @@
       pkgs.steam
       pkgs.lutris
       pkgs.heroic
+      pkgs.prismlauncher
       pkgs.krita
       pkgs.aseprite
       pkgs.inkscape
@@ -78,6 +80,41 @@
     home.file."projects/.projects".text = ''
       projects
     '';
+
+    # - .c FOLDER - #
+    home.file.".c/Games/.Games".text = ''
+      Games
+    '';
+    home.file.".c/Games/Heroic/.Heroic".text = ''
+      Heroic
+    '';
+    home.file.".c/Games/Lutris/.Lutris".text = ''
+      Lutris
+    '';
+    home.file.".c/Minecraft/.Minecraft".text = ''
+      Minecraft
+    '';
+    home.file.".c/Minecraft/docs/.docs".text = ''
+      docs
+    '';
+    home.file.".c/Minecraft/downloads/.downloads".text = ''
+      downloads
+    '';
+    home.file.".c/Minecraft/instances/.instances".text = ''
+      instances
+    '';
+    home.file.".c/Minecraft/mods/.mods".text = ''
+      mods
+    '';
+    # Archipelago
+    home.file.".c/Archipelago/.Archipelago".text = ''
+      Archipelago
+    '';
+    home.file.".c/Archipelago/Archipelago.AppImage" = {
+      source = builtins.fetchurl {
+        url = "https://github.com/ArchipelagoMW/Archipelago/releases/download/0.4.3/Archipelago_0.4.3_linux-x86_64.AppImage";
+      };
+    };
 
     # - CONFIGS - #
     #   KRITA
@@ -426,6 +463,23 @@
         hi Normal ctermbg=NONE guibg=NONE
       '';
     };
+    #   LIBREWOLF
+      # Configuration with other Syncing Methods;
+      # Everything that cant be Synced will be here:
+      # IMPROVEDTUBE 
+    home.file.".config/librewolfmanual/improvedtube.json".text = ''
+      {"add_scroll_to_top":true,"always_show_progress_bar":false,"below_player_pip":false,"below    _player_screenshot":true,"channel_compact_theme":true,"channel_default_tab":"/videos","cha    nnel_hide_featured_content":true,"channel_play_all_button":true,"channel_trailer_autoplay"    :false,"channel_videos_count":false,"collapse_of_subscription_sections":true,"comments_sid    ebar":true,"comments_sidebar_simple":false,"day_of_week":true,"description":"expanded","du    ration_with_speed":true,"embeddedHidePauseOverlay":true,"embeddedHideShare":true,"embedded    HideYoutubeLogo":true,"forced_theater_mode":false,"header_hide_country_code":true,"header_    hide_right_buttons":true,"header_improve_logo":true,"header_transparent":true,"hide_animat    ed_thumbnails":true,"hide_author_avatars":false,"hide_clip_button":"icons_only","hide_deta    ils":false,"hide_download_button":"hidden","hide_footer":true,"hide_gradient_bottom":false    ,"hide_more_button":false,"hide_save_button":"icons_only","hide_scroll_for_details":true,"    hide_share_button":"icons_only","hide_shorts_remixing":true,"hide_thanks_button":"hidden",    "hide_thumbnail_overlay":false,"hide_views_count":false,"hide_voice_search_button":true,"h    ow_long_ago_the_video_was_uploaded":true,"improvedtube_youtube_icon":"disabled","livechat"    :"collapsed","mini_player":true,"player_autoplay":false,"player_autoplay_button":true,"pla    yer_color":"deep_purple","player_hd_thumbnail":true,"player_hide_annotations":true,"player    _hide_cards":true,"player_hide_endscreen":true,"player_hide_skip_overlay":true,"player_min    iplayer_button":false,"player_previous_button":false,"player_quality":"hd1080","player_rem    aining_duration":true,"player_remote_button":true,"player_repeat_button":true,"player_scre    en_button":false,"player_screenshot_button":true,"player_settings_button":false,"player_sh    ow_cards_on_mouse_hover":true,"player_size":"full_window","player_subtitles_button":false,    "player_transparent_background":true,"player_view_button":false,"player_volume_button":fal    se,"red_dislike_button":true,"related_videos":"collapsed","remove_home_page_shorts":true,"    remove_related_search_results":true,"remove_shorts_reel_search_results":true,"squared_user    _images":false,"theme":"dark","theme_primary_color":[null,null,null],"theme_text_color":[2    5,25,25],"up_next_autoplay":false,"youtube_home_page":"/feed/subscriptions"}
+    '';
+    # LICHESS ENHANCEMENT
+    # about:config | xpinstall.signatures.required = false
+    # about:addons | grant permissions
+    # Configuration: Neo-Wood; Wallnut
+    # I still cant decide whether or not I should use PrettierLichess Custom Board Colors or the Wallnut Board... both are good, but Ill go with Wallnut for now.
+    home.file.".config/librewolfmanual/lichessenhancement.zip" = {
+      source = builtins.fetchurl {
+        url = "https://download1526.mediafire.com/em9mdwix696gfeF1WD39pqymLsCKu9DNfx2bNysL_o_LPSanWuv3NX9VSr8OtLuQ00OEoO1qrrp3YieYGBfM0Gp1RykFpQt5lm1pWXEb6YIht0iGFg-3cIPokUd9OPsTiyxPSFLcfBNu40jcYrT30xpah13LozqKu6aIAnpn/l64yyc3my4pd0dv/lichess_enhancement-4.1.zip";
+      };
+    };
     #   DESKTOP
     gtk = {
       enable = true;
@@ -487,7 +541,7 @@
       bind = $mod, B, exec, librewolf
       bind = $mod, P, exec, keepassxc
       bind = $mod, F, exec, nautilus
-      bind = $mod, C, exec, vencord
+      bind = $mod, H, exec, discord
       bind = $mod, G, exec, nixGL steam
       bind = $mod, K, exec, krita
       bind = $mod, L, exec, libresprite
@@ -497,8 +551,8 @@
       bind = $mod, C, exec, gnome-calculator
       bind = $mod, O, exec, libreoffice
       bind = $mod, N, exec, focuswriter
-      bind = $mod, V, exec, virt-manager
       bind = $mod, U, exec, godot
+      bind = $mod, V, exec, pavucontrol
       bind = , xf86audioraisevolume, exec, wpctl set-sink-volume @DEFAULT_SINK@ +5% 
       bind = , xf86audiolowervolume, exec, wpctl set-sink-volume @DEFAULT_SINK@ -5% 
       bind = $mod, SPACE, togglefloating
@@ -1205,6 +1259,32 @@
     }
     }
     '';
+    #   STEAMGRIDDB
+    home.file.".c/Grids/Minecraft-Java/v.jpg" = {
+      source = builtins.fetchurl {
+        url = "https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/0ed5055450adbd836945761a6fa43ee0.jpg";
+      };
+    };
+    home.file.".c/Grids/Minecraft-Java/h.jpg" = {
+      source = builtins.fetchurl {
+        url = "https://cdn2.steamgriddb.com/file/sgdb-cdn/thumb/b789ce7f0c28e1831a5b0a1998e38d1e.jpg";
+      };
+    };
+    home.file.".c/Grids/Minecraft-Java/o.jpg" = {
+      source = builtins.fetchurl {
+        url = "https://cdn2.steamgriddb.com/file/sgdb-cdn/hero_thumb/af8d1eb220186400c494db7091e402b0.jpg";
+      };
+    };
+    home.file.".c/Grids/Minecraft-Java/l.png" = {
+      source = builtins.fetchurl {
+        url = "https://cdn2.steamgriddb.com/file/sgdb-cdn/logo_thumb/d5c1f1a189893daa190f8a0b30ad70f2.png";
+      };
+    };
+    home.file.".c/Grids/Minecraft-Java/i.png" = {
+      source = builtins.fetchurl {
+        url = "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/add7a048049671970976f3e18f21ade3/32/256x256.png";
+      };
+    };
     #   WALLPAPER
     home.file.".wallpaper.png" = {
       source = builtins.fetchurl {
@@ -1244,6 +1324,8 @@
     killall
   ];
   nix.settings.allowed-users = [ "@wheel" ];
+    # - JAVA - #
+  programs.java.enable = true;
     # - SHELL - #
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -1326,8 +1408,26 @@
   system.copySystemConfiguration = true;
   system.stateVersion = "23.05";
 
-  system.nixos.label = "MeowOS-1.5.6-MaineCoon";
+  system.nixos.label = "MeowOS-1.6.4-MaineCoon";
     # CHANGELOG:
+    #   - MeowOS v.1.6.4
+    #     - Download Lichess Enhancement
+    #   - MeowOS v.1.6.3
+    #     - Export ImprovedTube Config
+    #   - MeowOS v.1.6.2
+    #     - Download Archipelago
+    #     - Set up .c Folder
+    #   - MeowOS v.1.6.1
+    #     - Download Steam Grids for Minecraft
+    #   - MeowOS v.1.6.0
+    #     - Enable Java system-wide
+    #     - Add pavucontrol Keybind
+    #   - MeowOS v.1.5.9
+    #     - Add Appimage Support
+    #   - MeowOS v.1.5.8
+    #     - Add Prism Launcher (Minecraft)
+    #   - MeowOS v.1.5.7
+    #     - Fix Discord Shortcut
     #   - MeowOS v.1.5.6
     #     - Attempt at fixing Steam
     #   - MeowOS v.1.5.5
